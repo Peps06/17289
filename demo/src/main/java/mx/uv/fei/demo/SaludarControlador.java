@@ -1,5 +1,6 @@
 package mx.uv.fei.demo;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,54 +11,52 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class SaludarControlador {
-	String nombre;
-    
+
+    String nombre;
+
     @GetMapping("/saludos")
-	public String saludar(){
-		return "Hola Dana! 🫵😋 " + nombre;
-	}
+    public String saludar() {
+        return "Hola Dana! 🫵😋 " + nombre;
+    }
 
     @GetMapping("/despedidas")
-	public String despedirse(){
-		return "Adiós Dana! ✌️😋";
-	}
+    public String despedirse() {
+        return "Adiós Dana! ✌️😋";
+    }
 
-	@PostMapping("/nombramientos")
-	public void nombre(){
-		nombre = "De pepis 😎";
-	}
+    @PostMapping("/nombramientos")
+    public void nombre() {
+        nombre = "De pepis 😎";
+    }
 
-	@PutMapping("/nombramientos")
-	public void cambiar(){
-		nombre = "actualizar 🔄️";
-	} 
-
-	@DeleteMapping("/nombramientos")
-	public void eliminar(){
-		nombre = null + "🗑️😪";
-	}
+    @PutMapping("/nombramientos")
+    public void cambiar() {
+        nombre = "Dana";
+    }
 
     @DeleteMapping("/nombramientos")
-    public void eliminarNombre(){
-        nombre = null;
+    public void eliminar() {
+        nombre = null + "🗑️😪";
     }
 
     @GetMapping("/saludador/{nombre}")
-    public Saludador met3(@PathVariable String nombre){
+    public Saludador met3(@PathVariable String nombre) {
         return new Saludador(nombre);
     }
 
     @RequestMapping("/saludador2/{nombreX}")
-    public Saludador met4(@PathVariable ("nombreX")String nombre){
-        System.out.println("get"+ nombre);
+    public Saludador met4(@PathVariable("nombreX") String nombre) {
+        System.out.println("get" + nombre);
         saludador = new Saludador(nombre);
         return saludador;
-        
+
     }
+
     @RequestMapping
-    public String indice(){
+    public String indice() {
         return """
                 <h1>menú principal</h1>
                 <ul>
@@ -70,29 +69,28 @@ public class SaludarControlador {
                 <li><a href='/obtenerSaludador'>/obtenerSaludador</a></li>
                 </ul>
                 """;
-                        
+
     }
 
     Saludador saludador;
 
     @PostMapping("/crearSaludador")
-    public void crearSaludador (@RequestBody Saludador nombre){
+    public void crearSaludador(@RequestBody Saludador nombre) {
         saludador = nombre;
     }
 
     @GetMapping("/obtenerSaludador")
-    public Saludador obtenerSaludador(){
+    public Saludador obtenerSaludador() {
         return saludador;
-
     }
 
-    @GetMapping ("/getQuery")
-    public String GetQueryString(@RequestParam String nombre, @RequestParam String paterno){
+    @GetMapping("/getQuery")
+    public String GetQueryString(@RequestParam String nombre, @RequestParam String paterno) {
         return nombre + " " + paterno;
     }
 
-    @GetMapping ("/getQuery2")
-    public String GetQueryString2(@RequestParam String nombre, @RequestParam(defaultValue="") String paterno){
+    @GetMapping("/getQuery2")
+    public String GetQueryString2(@RequestParam String nombre, @RequestParam(defaultValue = "") String paterno) {
         return nombre + " " + paterno;
-    }    
+    }
 }
